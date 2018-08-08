@@ -1,0 +1,33 @@
+## HUB
+#supplements:
+#  image: tomcat
+#  ports:
+#    - "8888:8080"
+#  links:
+#    - db
+#  volumes:
+#    - ./xr/:/xr
+#    - ./supplements.war:/usr/local/tomcat/webapps/supplements.war
+#  environment:
+#    - "JAVA_OPTS=-javaagent:/xr/xrebel-hub-agent.jar -Dxrebel.hub.api.url=https://hub-staging-upload.xrebel.com/rest/agent-api -Dxrebel.hub.app.name=supplements -Dxrebel.hub.app.build=slow-1 -Dmongo.host=db" # STAGING
+#    - "JAVA_OPTS=-javaagent:/xr/xrebel-hub-agent.jar -Dxrebel.hub.app.name=supplements -Dxrebel.hub.app.build=slow-1 -Dmongo.host=db"  # PRODUCTION
+
+
+## LOCAL
+supplements:
+  image: tomcat
+  ports:
+    - "8888:8080"
+  links:
+    - db
+  volumes:
+    - ./xr/:/xr
+    - ~/.xrebel/xrebel.lic:/root/.xrebel/xrebel.lic
+    - ./supplements.war:/usr/local/tomcat/webapps/supplements.war
+  environment:
+    - "JAVA_OPTS=-javaagent:/xr/xrebel.jar -Dmongo.host=db"
+#    - "-Dmongo.host=db"  # use me if you run without XR
+
+db:
+  image: mongo
+  command: -smallfiles -nojournal
